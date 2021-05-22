@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== BOX ICONS ===== -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="./css/stylesBarra.css">
+    <link rel="stylesheet" href="./css/styleEmpleados.css">
+
+    <title>Sidebar menu responsive</title>
+</head>
+
+<body id="body-pd">
+    <header class="header" id="header">
+        <div class="header__toggle">
+            <i class='bx bx-menu' id="header-toggle">Herramientas</i>
+        </div>
+        <div class="user-wrapper">
+            <img src="./img/user.jpg" width="50px" height="40px" alt="">
+            <div>
+                <h5>Daniela López</h5>
+                <small>Administrador</small>
+            </div>
+
+            <!-- <div class="header__img">
+                <img src="./img/user.jpg" alt="">              
+            </div>
+            <h4>Daniela López</h4> -->
+    </header>
+
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="#" class="nav__logo">
+                    <i class="fas fa-taxi"></i>
+                    <span class="nav__logo-name">YII-YEE</span>
+                </a>
+
+                <div class="nav__list">
+                    <a href="reservacion.html" class="nav__link ">
+                        <span><i class="fas fa-map-marked-alt"></i></span>
+                        <span>Reservaciones</span>
+                    </a>
+
+                    <a href="paqueteria.html" class="nav__link">
+                        <span><i class="fas fa-box-open"></i></span>
+                        <span>Paquetería</span>
+                    </a>
+
+                    <a href="empleados.html" class="nav__link active">
+                        <span><i class="fas fa-user"></i></span>
+                        <span>Usuario</span>
+                    </a>
+
+                    <a href="#" class="nav__link">
+                        <span><i class="fas fa-location-arrow"></i></span>
+                        <span>Unidades</span>
+                    </a>
+
+                    <a href="corridas.html" class="nav__link">
+                        <span><i class="fas fa-map-marker-alt"></i></span>
+                        <span>Corridas</span>
+                    </a>
+
+                    <a href="#" class="nav__link">
+                        <span><i class="fas fa-clipboard"></i></span>
+                        <span>Reporte</span>
+                    </a>
+                </div>
+            </div>
+
+            <a href="Login.html" class="nav__link">
+                <i class='bx bx-log-out nav__icon'></i>
+                <span class="nav__name">Log Out</span>
+            </a>
+        </nav>
+    </div>
+    <section class="section-2">
+        <div class="container" id="advanced-search-form">
+            <h2>Agregar Corrida</h2>
+            <form>
+                <div class="form-group">
+                    <label for="first-name">Seleccione Origen</label>
+                    <select name="Genero" id="Genero" class="form-control">
+                        <option value="" selected>Value</option>
+                        <option value="value">value</option>
+                        <option value="value">value</option>
+                        <option value="value">value</option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="first-name">Seleccione Destino</label>
+                    <select name="Genero" id="Genero" class="form-control">
+                        <option value="" selected>Value</option>
+                        <option value="value">value</option>
+                        <option value="value">value</option>
+                        <option value="value">value</option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Salida </label>
+                    <input list="horarios" class="form-control" placeholder="Fecha" type="date" name="Any">
+
+                </div>
+                <div class="form-group">
+                    <label for="Hora">Hora de salida</label>
+                    <select name="Genero" id="Genero" class="form-control">
+                        <option value="" selected>Value</option>
+                        <option value="value">value</option>
+                        <option value="value">value</option>
+                      <option value="value">value</option>
+                    </select>
+                      </div>
+                <div class="form-group">
+                    <label for="Hora">Seleccione Conductor</label>
+                    <select name="Genero" id="Genero" class="form-control">
+                        <option value="" selected>Value</option>
+                        <option value="value">value</option>
+                        <option value="value">value</option>
+                        <option value="value">value</option>
+                    </select>
+
+                </div>
+            </form>
+
+
+            <!-- Botones -->
+            <!-- <button type="submit" class="btn btn-info btn-sm " id="search"> <span class="glyphicon glyphicon-search"></span>
+            OK</button>
+        </div> -->
+            <div class="ok">
+                <button type="submit" class="btn btn-info btn-sm justify-content-md-end" id="search1"> <span
+                        class="glyphicon glyphicon-search"></span>
+                    OK</button>
+            </div>
+
+            <div class="cancelar">
+                <button type="submit" class="btn btn-info btn-sm "> <span class="glyphicon glyphicon-search"></span>
+                    Cancelar</button>
+            </div>
+    </section>
+
+    </div>
+    <!--===== MAIN JS =====-->
+    <script src="./js/mainBarra.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="./main.js"></script>
+</body>
+
+</html>

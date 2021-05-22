@@ -1,0 +1,401 @@
+/*===== GOOGLE FONTS =====*/
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+/*===== VARIABLES CSS =====*/
+:root{
+  --header-height: 3rem;
+  --nav-width: 68px;
+
+  /*===== Colors =====*/
+  --first-color: #2183f3;
+  --first-color-light: #ffffff;
+  --white-color: #F7F6FB;
+  
+  /*===== Font and typography =====*/
+  --body-font: 'Nunito', sans-serif;
+  --normal-font-size: 1rem;
+  
+  /*===== z index =====*/
+  --z-fixed: 100;
+}
+
+/*===== BASE =====*/
+*,::before,::after{
+  box-sizing: border-box;
+}
+
+body{
+  position: relative;
+  margin: var(--header-height) 0 0 0;
+  padding: 0 1rem;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  transition: .5s;
+}
+
+a{
+  text-decoration: none;
+}
+
+/*===== HEADER =====*/
+.header{
+  width: 100%;
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  background-color: var(--white-color);
+  z-index: var(--z-fixed);
+  transition: .5s;
+}
+
+.header__toggle{
+  color: var(--first-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.header__img{
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: right;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.header__img img{
+  width: 40px;
+
+}
+
+.user-wrapper{
+  display: flex;
+  align-items: center;
+  text-align: right;
+}
+.user-wrapper img{
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.user-wrapper small{
+  display: inline-block;
+  color: var(--text-gey);
+  margin-top: -10px !important;
+}
+
+/*===== NAV =====*/
+.l-navbar{
+  position: fixed;
+  top: 0;
+  left: -30%;
+  width: var(--nav-width);
+  height: 100vh;
+  background-color: var(--first-color);
+  padding: .5rem 1rem 0 0;
+  transition: .5s;
+  z-index: var(--z-fixed);
+}
+
+.nav{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.nav__logo, .nav__link{
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  column-gap: 1rem;
+  padding: .5rem 0 .5rem 1.5rem;
+}
+
+.nav__logo{
+  margin-bottom: 2rem;
+  font-size: 29px;
+  color: var(--white-color);
+}
+
+.nav__logo-icon{
+  font-size: 2.50rem;
+  color: var(--white-color);
+}
+
+.nav__logo-name{
+  color: var(--white-color);
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.nav__link{
+  position: relative;
+  color: var(--first-color-light);
+  margin-bottom: 1.5rem;
+  transition: .3s;
+}
+
+.nav__link:hover{
+  color: var(--white-color);
+}
+
+.nav__icon{
+  font-size: 1.25rem;
+}
+
+/*Show navbar movil*/
+.show{
+  left: 0;
+}
+
+/*Add padding body movil*/
+.body-pd{
+  padding-left: calc(var(--nav-width) + 1rem);
+}
+
+/*Active links*/
+.active{
+  color: var(--white-color);
+}
+
+.active::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 2px;
+  height: 32px;
+  background-color: var(--white-color);
+}
+
+
+
+.section-2 {
+  background: rgba(123, 202, 255, 0.815);
+  overflow-x: hidden;
+  height: 700px;
+ 
+}
+
+#advanced-search-form{
+  background-color: rgb(251, 251, 251);
+  max-width: 800px;
+  margin: 20px auto 0;
+  padding: 10px;
+  color: #0a0531;
+  box-shadow: 6px 6px 6px rgba(24, 1, 78, 0.2);
+  height: 550px;
+}
+
+#advanced-search-form h2{
+  padding-bottom: 10px;
+  margin: 10px 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+#advanced-search-form .form-group{
+margin-bottom: 20px;
+  margin-left:20px;
+width: 30%;
+  float:left;
+  text-align: left;
+}
+#advanced-search-form .form-select{
+margin-bottom: 20px;
+  margin-left:20px;
+width: 30%;
+  float:left;
+  text-align: left;
+}
+
+#advanced-search-form .form-control{
+height: 10%;
+
+}
+
+
+#advanced-search-form .btn{
+  width: 8%;
+  margin: 25px 500px;
+  display: block;
+  outline: none;
+  
+}
+#advanced-search-form .btn #search{
+  width: 15%;
+  margin: 25px 500px;
+  display: block;
+  outline: none;
+  
+}
+#advanced-search-form .btn{
+  width: 8%;
+  margin: 25px 580px;
+  display: block;
+  outline: none;
+  
+}
+.cancelar{
+  width: 200%;
+  padding: 10px;
+  margin: -398px -80px;
+  /*justify-content: center;*/
+}
+.ok{
+  width: 200%;
+  padding: 10px;
+  margin: 290px 50px;
+  /*justify-content: center;*/
+}
+
+.origen{
+  padding: 0px;
+  margin: -260px 450px;
+  justify-content: center;
+  width: 180px;
+}
+
+
+
+@media screen and (max-width: 800px){
+  #advanced-search-form .form-group{
+      width: 45%;
+  }
+
+  #advanced-search-form{
+      margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 560px){
+  #advanced-search-form .form-group{
+      width: 100%;
+      margin-left: 0;
+  }
+
+  #advanced-search-form h2{
+      text-align: center;
+  }
+}
+
+
+/* ===== MEDIA QUERIES=====*/
+@media screen and (min-width: 768px){
+  body{
+    margin: calc(var(--header-height) + 1rem) 0 0 0;
+    padding-left: calc(var(--nav-width) + 2rem);
+  }
+
+  .header{
+    height: calc(var(--header-height) + 1rem);
+    padding: 0 2rem 0 calc(var(--nav-width) + 2rem);
+  }
+
+  .header__img{
+    width: 40px;
+    height: 40px;
+  }
+
+  .header__img img{
+    width: 45px;
+  }
+
+  .l-navbar{
+    left: 0;
+    padding: 1rem 1rem 0 0;
+  }
+  
+  /*Show navbar desktop*/
+  .show{
+    width: calc(var(--nav-width) + 156px);
+  }
+
+  /*Add padding body desktop*/
+  .body-pd{
+    padding-left: calc(var(--nav-width) + 188px);
+  }
+}
+
+
+
+#advanced-search-form2{
+  background-color: rgb(251, 251, 251);
+  max-width: 800px;
+  margin: 20px auto 0;
+  padding: 10px;
+  color: #0a0531;
+  box-shadow: 6px 6px 6px rgba(24, 1, 78, 0.2);
+  height: 770px;
+}
+
+#advanced-search-form2 h2{
+  padding-bottom: 10px;
+  margin: 10px 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+#advanced-search-form2 .form-group{
+margin-bottom: 20px;
+  margin-left:20px;
+width: 30%;
+  float:left;
+  text-align: left;
+}
+#advanced-search-form2 .form-select{
+margin-bottom: 20px;
+  margin-left:20px;
+width: 30%;
+  float:left;
+  text-align: left;
+}
+
+#advanced-search-form2 .form-control{
+height: 10%;
+
+}
+
+
+#advanced-search-form2 .btn{
+  width: 8%;
+  margin: 25px 500px;
+  display: block;
+  outline: none;
+  
+}
+#advanced-search-form2 .btn #search{
+  width: 15%;
+  margin: 25px 500px;
+  display: block;
+  outline: none;
+  
+}
+#advanced-search-form2 .btn{
+  width: 8%;
+  margin: 25px 580px;
+  display: block;
+  outline: none;
+  
+}
+
+.cancelar2{
+  width: 200%;
+  padding: 10px;
+  margin: -188px -80px;
+  /*justify-content: center;*/
+}
+.ok2{
+  width: 200%;
+  padding: 10px;
+  margin: 80px 50px;
+  /*justify-content: center;*/
+}
+
+
