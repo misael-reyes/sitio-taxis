@@ -7,42 +7,45 @@ use Exception;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\TryCatch;
 
-class CabController extends Controller
-{
-    public function index()
-    {
-        // vista principal de taxis
+class CabController extends Controller {  
+    /**
+     * index
+     *
+     * función que recupera los datos de la tabla cabs para despues pasarselos
+     * a la vista index, donde se encuentra la tabla con todos lo registros
+     * 
+     * @return void
+     */
+    public function index(){
         $datos['taxis'] = Cab::paginate(30);
         return view('admin.taxi.index',$datos);
     }
-
-    public function create()
-    {
+    
+    /**
+     * create
+     * 
+     * función que retorna la vista create, que como sabemos, es la vista para crear
+     * un nuvo registro
+     *
+     * @return void
+     */
+    public function create(){
         return view('admin.taxi.create');
     }
-
-    public function store(Request $request)
-    {
-        //campos a validar
-        /*
-        $campos=[
-            'placa'=>'required|string|max:30',
-            'marca'=>'required|string|max:40',
-            'modelo'=>'required|string|max:40',
-            'year'=>'required|integer',
-            'rol'=>'required|string|max:30',
-        ];
-        //:attribute es un comodin para todos los campos que esten vacio
-        $mensaje=[
-            'required'=>'El :attribute es requerido',
-            'marca.required'=>'La marca es requerida',
-            'placa.required'=>'La placa es requerida'
-        ];
-        $this->validate($request, $campos, $mensaje);
-        */
-
+    
+    /**
+     * store
+     * 
+     * función para guardar los datos de un nuevo registro taxi
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function store(Request $request){        
+        /** @var mixed $datosTaxi recuperamos los datos que enivio el usuario */
         $datosTaxi = request()->except('_token');
-        Try{
+        Try{            
+            /** @var mixed $datosTaxi insertamos en la base de datos */
             Cab::insert($datosTaxi);
             return redirect('taxi')->with('mensaje','Taxi agregado con éxito');
         } catch(\Illuminate\Database\QueryException $e){
@@ -50,43 +53,49 @@ class CabController extends Controller
         }  
     }
 
-    public function show(Cab $cab)
-    {
+    public function show(Cab $cab){
         //
     }
-
-    public function edit($id)
-    {
+    
+    /**
+     * edit
+     * 
+     * función que recupera los datos del registro taxi seleccionado y los retorna en el 
+     * formulario para que puedan ser editados
+     *
+     * @param  mixed $id clave del taxi seleccionado
+     * @return void vista edit, pero con los datos del registro seleccionado
+     */
+    public function edit($id){
         $taxi=Cab::findOrFail($id);
         return view('admin.taxi.edit', compact('taxi'));
     }
-
-    public function update(Request $request, $id)
-    {
-        //campos a validar
-        /*
-        $campos=[
-            'placa'=>'required|string|max:30',
-            'marca'=>'required|string|max:40',
-            'modelo'=>'required|string|max:40',
-            'year'=>'required|integer',
-            'rol'=>'required|string|max:30',
-        ];
-        //:attribute es un comodin para todos los campos que esten vacio
-        $mensaje=[
-            'required'=>'El :attribute es requerido',
-            'marca.required'=>'La marca es requerida',
-            'placa.required'=>'La placa es requerida'
-        ];
-        $this->validate($request, $campos, $mensaje);
-        */
-        $datosTaxi = request()->except(['_token','_method']);
-        Cab::where('id','=',$id)->update($datosTaxi); //actualizamos en la BD
+    
+    /**
+     * update
+     * 
+     * fución que actualiza los datos de un registro taxi
+     *
+     * @param  mixed $request solicitud para actualizar datos
+     * @param  mixed $id clave del registro que se actualizará
+     * @return void muestra la vista index con un mesaje de éxito
+     */
+    public function update(Request $request, $id){
+        $datosTaxi = request()->except(['_token','_method']);        
+        /** actualizamos la base de datos */
+        Cab::where('id','=',$id)->update($datosTaxi);
         return redirect('taxi')->with('mensaje', 'Taxi modificado');
     }
-
-    public function destroy($id)
-    {
+    
+    /**
+     * destroy
+     * 
+     * función para eliminar un registro de la base de datos
+     *
+     * @param  mixed $id clave del registro a eliminar
+     * @return void muestra la vista index con un mensaje de éxito
+     */
+    public function destroy($id){
         Cab::destroy($id);
         return redirect('taxi')->with('mensaje', 'Taxi eliminado');
     }

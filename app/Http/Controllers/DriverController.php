@@ -7,45 +7,45 @@ use Illuminate\Http\Request;
 use App\Models\Cab;
 use Illuminate\Support\Facades\DB;
 
-class DriverController extends Controller
-{
-    public function index()
-    {
+/**
+ * DriverController
+ */
+class DriverController extends Controller {
+        
+    /**
+     * función que recupera los datos de la tabla drivers para despues pasarselos
+     * a la vista index, donde se encuentra la tabla con todos lo registros
+     *
+     * @return void
+     */
+    public function index(){
         $datos['choferes'] = Driver::paginate(5);
         return view('admin.chofer.index', $datos);
     }
-
-    public function create()
-    {
+    
+    /**
+     * función que retorna la vista create, que como sabemos, es la vista para crear
+     * un nuvo registro
+     *
+     * @return void
+     */
+    public function create(){
         $taxis = DB::table('cabs')
             ->select('cabs.id')
             ->leftJoin('drivers', 'cabs.id', '=', 'drivers.cab_id')
             ->whereNull('drivers.cab_id')
             ->get();
-        //$taxis = Cab::all();
 
         return view('admin.chofer.create', compact('taxis'));
     }
-
-    public function store(Request $request)
-    {
-        /*
-        $campos=[
-            'nombre'=>'required|string|max:40',
-            'apellidoPaterno'=>'required|string|max:40',
-            'apellidoMaterno'=>'required|string|max:40',
-            'num_celular'=>'required|string|max:10',
-            'dir_calle'=>'required|string|max:40',
-            'dir_numero'=>'required|string|max:10',
-            'dir_localidad'=>'required|string|max:40',
-        ];
-        $mensaje=[
-            'required'=>'El :attribute es requerido',
-            'dir_calle.required'=>'La calle es requerida',
-            'dir_localidad.required'=>'La localidad es requerida'
-        ];
-        $this->validate($request, $campos, $mensaje);
-        */
+    
+    /**
+     * función para guardar los datos de un nuevo registro chofer
+     *
+     * @param  mixed $request solicitud para registrar datos
+     * @return void
+     */
+    public function store(Request $request){
         $datosChofer = request()->except('_token');
         try {
             Driver::insert($datosChofer);
@@ -55,49 +55,47 @@ class DriverController extends Controller
         }
     }
 
-    public function show(Driver $driver)
-    {
-    }
-
-    public function edit($id)
-    {
+    /**
+     * función que recupera los datos del registro taxi seleccionado y los retorna en el 
+     * formulario para que puedan ser editados
+     *
+     * @param  mixed $id clave del registro a editar
+     * @return void
+     */
+    public function edit($id){        
+        /** @var \Illuminate\Support\Facades\DB $taxis  
+         * recuperamos aquellos taxis que aun no tengan asignado un chofer
+        */
         $taxis = DB::table('cabs')
             ->select('cabs.id')
             ->leftJoin('drivers', 'cabs.id', '=', 'drivers.cab_id')
             ->whereNull('drivers.cab_id')
             ->get();
 
-        //$taxis = Cab::all();
         $chofer = Driver::findOrFail($id);
         return view('admin.chofer.edit', compact('chofer'), compact('taxis'));
     }
-
-    public function update(Request $request, $id)
-    {
-        /*
-        $campos=[
-            'nombre'=>'required|string|max:40',
-            'apellidoPaterno'=>'required|string|max:40',
-            'apellidoMaterno'=>'required|string|max:40',
-            'num_celular'=>'required|string|max:10',
-            'dir_calle'=>'required|string|max:40',
-            'dir_numero'=>'required|string|max:10',
-            'dir_localidad'=>'required|string|max:40',
-        ];
-        $mensaje=[
-            'required'=>'El :attribute es requerido',
-            'dir_calle.required'=>'La calle es requerida',
-            'dir_localidad.required'=>'La localidad es requerida'
-        ];
-        $this->validate($request, $campos, $mensaje);
-        */
+    
+    /**
+     * fución que actualiza los datos de un registro chofer
+     *
+     * @param  mixed $request solicitud de actualización
+     * @param  mixed $id clave del registro a actualizar
+     * @return void
+     */
+    public function update(Request $request, $id){
         $datosChofer = request()->except(['_token', '_method']);
         Driver::where('id', '=', $id)->update($datosChofer); //actualizamos en la BD
         return redirect('chofer')->with('mensaje', 'Chofer modificado');
     }
-
-    public function destroy($id)
-    {
+    
+    /**
+     * función para eliminar un registro de la base de datos
+     *
+     * @param  mixed $id clave del registro a eliminar
+     * @return void
+     */
+    public function destroy($id){
         Driver::destroy($id);
         return redirect('chofer')->with('mensaje', 'Chofer eliminado');
     }

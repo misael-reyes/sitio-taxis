@@ -7,81 +7,87 @@ use App\Models\Cab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CorridaController extends Controller
-{
-    public function index()
-    {
+class CorridaController extends Controller{
+    /**
+     * función que recupera los datos de la tabla cabs para despues pasarselos
+     * a la vista index, donde se encuentra la tabla con todos lo registros
+     *
+     * @return void
+     */
+    public function index(){
         $datos['corridas']= Corrida::paginate(20);
         return view('admin.corrida.index', $datos);
     }
-
-    public function create()
-    {
+    
+    /**
+     * función que retorna la vista create, que como sabemos, es la vista para crear
+     * un nuvo registro
+     *
+     * @return void
+     */
+    public function create(){
         $taxis = DB::table('cabs')
             ->select('cabs.id')
             ->join('drivers', 'cabs.id', '=', 'drivers.cab_id')
             ->where('cabs.rol','=','ruta')
             ->get();
 
-       // $taxis = Cab::all();
         return view('admin.corrida.create', compact('taxis'));
     }
-
-    public function store(Request $request)
-    {
-        /*
-        $campos=[
-            'hora_salida'=>'required',
-            'origen'=>'required|string|max:40',
-            'destino'=>'required|string|max:40',
-        ];
-        $mensaje=[
-            'required'=>'El :attribute es requerido',
-            'salida.required'=>'La hora de salida es requerida',
-        ];
-        $this->validate($request, $campos, $mensaje);
-        */
+    
+    /**
+     * función para guardar los datos de un nuevo registro corrida
+     *
+     * @param  mixed $request solicitud para registrar
+     * @return void
+     */
+    public function store(Request $request){
         $datosCorrida = request()->except('_token');
         Corrida::insert($datosCorrida);
         return redirect('corrida')->with('mensaje','Corrida agregada con éxito');
     }
 
-    public function show(Corrida $corrida)
-    {
-    }
-
-    public function edit($id)
-    {
+    /**
+     * función que recupera los datos del registro corrida seleccionado y los retorna en el 
+     * formulario para que puedan ser editados
+     *
+     * @param  mixed $id clave del registro a editar
+     * @return void
+     */
+    public function edit($id){        
+        /** @var \Illuminate\Support\Facades\DB $taxis 
+         * recuperamos aquellos taxis que ya tienen asignado un chofer y que tengan el servicio
+         * de ruta
+        */
         $taxis = DB::table('cabs')
             ->select('cabs.id')
             ->join('drivers', 'cabs.id', '=', 'drivers.cab_id')
             ->where('cabs.rol','=','ruta')
             ->get();
-        //$taxis = Cab::all();
         $corrida = Corrida::findOrFail($id);
         return view('admin.corrida.edit', compact('corrida'), compact('taxis'));
     }
-
-    public function update(Request $request, $id)
-    {
-        /*
-        $campos=[
-            'hora_salida'=>'required',
-            'origen'=>'required|string|max:40',
-            'destino'=>'required|string|max:40',
-        ];
-        $mensaje=[
-            'required'=>'El :attribute es requerido',
-            'salida.required'=>'La hora de salida es requerida',
-        ];
-        $this->validate($request, $campos, $mensaje);*/
+    
+    /**
+     * fución que actualiza los datos de un registro corrida
+     *
+     * @param  mixed $request solicitud de actualizacion
+     * @param  mixed $id clave del registro a actualizar
+     * @return void
+     */
+    public function update(Request $request, $id){
         $datosCorrida = request()->except(['_token','_method']);
         Corrida::where('id','=',$id)->update($datosCorrida); //actualizamos en la BD
         return redirect('corrida')->with('mensaje', 'Corrida modificada');
     }
-
-    public function destroy($id)
-    {
+    
+    /**
+     * función para eliminar un registro de la base de datos
+     *
+     * @param  mixed $id clave del registro a eliminar
+     * @return void
+     */
+    public function destroy($id){
         Corrida::destroy($id);
         return redirect('corrida')->with('mensaje','Corrida eliminada');
     }
