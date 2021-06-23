@@ -203,10 +203,19 @@ a{
 #advanced-search-form .form-group{
 margin-bottom: 20px;
   margin-left:20px;
-width: 30%;
+width: 40%;
   float:left;
   text-align: left;
 }
+
+#advanced-search-form .form-group2{
+  margin-bottom: 20px;
+    margin-left: 4rem;
+  width: 20%;
+    float:left;
+    text-align: left;
+  }
+
 #advanced-search-form .form-select{
 margin-bottom: 20px;
   margin-left:20px;
@@ -217,7 +226,6 @@ width: 30%;
 
 #advanced-search-form .form-control{
 height: 10%;
-
 }
 
 
@@ -256,10 +264,14 @@ height: 10%;
 }
 
 .origen{
-  padding: 0px;
-  margin: -260px 450px;
+  padding: 10px;
+  margin: -275px 450px;
   justify-content: center;
-  width: 180px;
+  width: 250px;
+}
+
+.origen select{
+  margin-left: 20px;
 }
 
 
@@ -359,7 +371,6 @@ width: 30%;
 
 #advanced-search-form2 .form-control{
 height: 10%;
-
 }
 
 
@@ -395,6 +406,19 @@ height: 10%;
   width: 200%;
   padding: 10px;
   margin: 80px 50px;
+  /*justify-content: center;*/
+}
+
+.cancelar3{
+  width: 200%;
+  padding: 10px;
+  margin: -368px -170px;
+  /*justify-content: center;*/
+}
+.ok3{
+  width: 230%;
+  padding: 10px;
+  margin: 260px -30px;
   /*justify-content: center;*/
 }
 

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CabController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\CorridaController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -26,26 +27,26 @@ Route::get('/', function () {
 Route::resource('taxi', CabController::class)->middleware('auth');
 Route::resource('chofer', DriverController::class)->middleware('auth');
 Route::resource('corrida', CorridaController::class)->middleware('auth');
-/*
-ESTO GENERO LA AUTENTICACION
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-*/
+
+
 Auth::routes(['reset'=>false]);
 
-//Route::get('/home', [CabController::class, 'index'])->name('home');
 
-//esto va a pasar cuando el usuario se loggea
+/**
+ * dentro de este grupo, las rutas que estan se les asigna la autenticación
+ */
 Route::group(['middleware' => 'auth'], function(){
     //Route::get('/home', [CabController::class, 'index'])->name('home');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    //mostramos las corridas
+    Route::get('reservacion', [ReservationController::class, 'mostrarCorridas'])->name('reservacion.corridas');
+    //mostramos la vista para elegir los asientos
+    Route::get('reservacion/{corrida}/asientos', [ReservationController::class, 'reservarAsiento'])->name('reservacion.asientos');
+    //se hace la reservación y se generan los boletos
+    Route::any('reservacion/{corrida}/boletos', [ReservationController::class, 'generarBoletos'])->name('reservacion.boletos');
+    //realizar las cancelaciones
+    Route::any('reservacion/{corrida}/cancelar', [ReservationController::class, 'cancelarReservacion'])->name('reservacion.cancelar');
+
+    Route::any('reservacion/{corrida}/cancelacion', [ReservationController::class, 'cancelar'])->name('reservacion.cancelacion');
 });
-
-/* esto tendre que hacer
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
- Route::group(['middleware' => 'auth'], function(){
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-});*/
- 

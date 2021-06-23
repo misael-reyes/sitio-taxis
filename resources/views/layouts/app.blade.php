@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -135,12 +135,12 @@
                 </a>
 
                 <div class="nav__list">
-                    <a href="" class="nav__link active">
+                    <a href="{{ route('reservacion.corridas') }}" class="nav__link active">
                         <span><i class="fas fa-map-marked-alt"></i></span>
                         <span>Reservaciones</span>
                     </a>
 
-                    <a href="" class="nav__link">
+                    <a href="#" class="nav__link">
                         <span><i class="fas fa-box-open"></i></span>
                         <span>Paquetería</span>
 
