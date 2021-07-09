@@ -17,7 +17,8 @@ class CorridaController extends Controller{
     public function index(){
         //$datos['corridas']= Corrida::paginate(20);
         //return view('admin.corrida.index', $datos);
-        $corridas = DB::table('corridas')->get();
+        //$corridas = DB::table('corridas')->get();
+        $corridas = Corrida::all();
         return view('admin.corrida.index', compact('corridas'));
     }
     

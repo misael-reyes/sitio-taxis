@@ -27,70 +27,66 @@ foreach ($asientos as $valor) {
     </button>
 </div>
 @endif
-<div class="container" id="advanced-search-form">
+<div class="container">
 
-    <h2>Cancelación de asientos</h2>
+    <h2 style="text-align: center; margin:20px;">Cancelación de asientos</h2>
 
-    <form action="{{ url('/reservacion/'.$corrida->id.'/cancelacion') }}" method="post" name="frm">
-        {{ method_field('PATCH') }}
+    <br>
+    <form class="form-inline" action="{{ url('/reservacion/'.$corrida->id.'/buscar') }}" method="post" name="frm">
         @csrf
-        <div class="form-group">
-            <label for="first-name" class="is-required">Nombre del cliente</label>
-            <input type="text" name="cliente" class="form-control" id="first-name" autocomplete="off" pattern="([A-ZÑÁÉÍÓÚ]*[a-zñáéíóú]*|[A-ZÑÁÉÍÓÚ]*[a-zñáéíóú]* [A-ZÑÁÉÍÓÚ]*[a-zñáéíóú]*)" required>
-
+        
+        
+        <div class="form-group mx-auto">
+            <label for="first-name" class="is-required" style="margin: 15px;">Nombre del cliente</label>
+            <input type="text" name="cliente" class="form-control" id="first-name" size="30px" autocomplete="off" pattern="([A-ZÑÁÉÍÓÚ]*[a-zñáéíóú]*|[A-ZÑÁÉÍÓÚ]*[a-zñáéíóú]* [A-ZÑÁÉÍÓÚ]*[a-zñáéíóú]*)" style="margin: 15px;" required>
+            <input type="submit" class="btn btn-success" style="margin: 15px;" value="Buscar">
         </div>
-
-        <div class="form-group2">
-            <label>Hora de salida</label>
-            <input type="text" name="hora_salida" readonly="true" class="form-control" id="country" value="{{ $corrida->hora_salida }}">
-        </div>
-
-        <img src="/dash/img/vehiculo.png" width="400" height="270">
-        <br>
-
-        <div class="origen">
-            <label for="">Seleccione los asientos a cancelar</label>
-            <div class="form-check">
-                <input class="form-check-input" name="num_asiento1" type="checkbox" value="1" id="flexCheckDefault" {{$disabled1}}>
-
-                <label class="form-check-label" for="flexCheckDefault">
-                    1
-                </label>
-            </div>
-            <br>
-            <div class="form-check">
-
-                <input class="form-check-input" name="num_asiento2" type="checkbox" value="2" id="flexCheckChecked" {{$disabled2}}>
-                <label class="form-check-label" for="flexCheckChecked">
-                    2
-                </label>
-            </div>
-            <br>
-            <div class="form-check">
-                <input class="form-check-input" name="num_asiento3" type="checkbox" value="3" id="flexCheckDefault" {{$disabled3}}>
-                <label class="form-check-label" for="flexCheckDefault">
-                    3
-                </label>
-            </div>
-            <br>
-            <div class="form-check">
-                <input class="form-check-input" name="num_asiento4" type="checkbox" value="4" id="flexCheckChecked" {{$disabled4}}>
-                <label class="form-check-label" for="flexCheckChecked">
-                    4
-                </label>
-            </div>
-            <br>
-
-        </div>
-
-        <div class="ok3">
-            <input class="btn btn-success" type="submit" value="Cancelación">
-        </div>
-
-        <div class="cancelar3">
-            <a class="btn btn-danger" href="{{ url('reservacion/') }}"> Regresar </a>
-        </div>
-
+    
     </form>
+
+    <br>
+
+    <table class="table table-light">
+
+        <thead class="thead-light">
+            <tr>
+                <th>ID de reservación</th>
+                <th>Nombre del Cliente</th>
+                <th>Número de asiento</th>
+                <th>Opción</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($asientos as $asiento)
+            <tr>
+                <?php
+                $str = strval($asiento->id);
+                for ($i = strlen($str); $i < 3; $i++) {
+                    $str = "0" . $str;
+                }
+                ?>
+                <td>{{ $str }}</td>
+                <td>{{ $asiento->cliente }}</td>
+                <td>Asiento {{ $asiento->num_asiento }}</td>
+                <td>
+                    <form action="{{ url('/reservacion/'.$corrida->id.'/cancelacion') }}" class="d-inline" method="post">
+                        {{ method_field('PATCH') }}
+                        @csrf
+                        <input type="hidden" id="sistema" name="id_reservacion" value="{{ $asiento->id }}"/>
+                        <input type="hidden" id="sistema" name="asien" value="{{ $asiento->num_asiento }}"/>
+                        <input type="hidden" id="sistema" name="name" value="{{ $asiento->cliente }}"/>
+                        <input class="btn btn-danger" type="submit" onclick="return confirm('¿Estas seguro de cancelar?')" value="Cancelar">
+                    </form>
+                </td>
+
+            </tr>
+            @endforeach
+        </tbody>
+
+    </table>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-danger" href="{{ url('reservacion/') }}"> Regresar </a>
+    </div>
 </div>
 @endsection

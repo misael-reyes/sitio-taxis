@@ -17,7 +17,7 @@ class CabController extends Controller {
      * @return void
      */
     public function index(){
-        $datos['taxis'] = Cab::paginate(30);
+        $datos['taxis'] = Cab::all();
         return view('admin.taxi.index',$datos);
     }
     

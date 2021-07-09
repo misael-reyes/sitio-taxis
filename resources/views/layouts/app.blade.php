@@ -140,10 +140,14 @@
                         <span>Reservaciones</span>
                     </a>
 
-                    <a href="#" class="nav__link">
+                    <a href="{{ route('envio.index') }}" class="nav__link">
                         <span><i class="fas fa-box-open"></i></span>
                         <span>Paquetería</span>
+                    </a>
 
+                    <a href="{{ route('viaje.index') }}" class="nav__link">
+                        <span><i class="fas fa-taxi"></i></span>
+                        <span>Viajes Especiales</span>
                     </a>
 
                     <a href="{{ route('chofer.index') }}" class="nav__link">
@@ -161,9 +165,9 @@
                         <span>Corridas</span>
                     </a>
 
-                    <a href="" class="nav__link">
+                    <a href="{{ route('reporte.index') }}" class="nav__link">
                         <span><i class="fas fa-clipboard"></i></span>
-                        <span>Reporte</span>
+                        <span>Reportes</span>
                     </a>
                 </div>
             </div>

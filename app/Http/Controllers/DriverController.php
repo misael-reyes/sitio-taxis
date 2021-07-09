@@ -19,7 +19,7 @@ class DriverController extends Controller {
      * @return void
      */
     public function index(){
-        $datos['choferes'] = Driver::paginate(20);
+        $datos['choferes'] = Driver::all();
         return view('admin.chofer.index', $datos);
     }
     

@@ -177,7 +177,7 @@ a{
 
 
 .section-2 {
-  background: rgba(123, 202, 255, 0.815);
+  background: rgba(70, 100, 184, 0.815);
   overflow-x: hidden;
   height: 700px;
  
@@ -195,7 +195,7 @@ a{
 
 #advanced-search-form h2{
   padding-bottom: 10px;
-  margin: 10px 20px;
+  margin: 4px 20px 0px;
   font-size: 24px;
   text-align: center;
 }
@@ -264,14 +264,25 @@ height: 10%;
 }
 
 .origen{
+  
   padding: 10px;
-  margin: -275px 450px;
+  margin: -250px 500px;
   justify-content: center;
-  width: 250px;
+  width: 200px;
+}
+.origen2{
+  background-color: aquamarine;
+  padding: 10px;
+  margin: -350px 500px;
+  justify-content: center;
+  width: 200px;
+}
+.origen2 select{
+  margin-bottom: 30px;
 }
 
 .origen select{
-  margin-left: 20px;
+  margin-bottom: 30px;
 }
 
 
@@ -413,13 +424,81 @@ height: 10%;
   width: 200%;
   padding: 10px;
   margin: -368px -170px;
-  /*justify-content: center;*/
-}
-.ok3{
-  width: 230%;
-  padding: 10px;
-  margin: 260px -30px;
+  margin-top: -348px;
   /*justify-content: center;*/
 }
 
+.ok3{
+  width: 230%;
+  padding: 10px;
+  margin: 240px -30px;
+  margin-top: 400px;
+  /*justify-content: center;*/
+}
+
+#advanced-search-form3{
+  background-color: rgb(251, 251, 251);
+  max-width: 800px;
+  margin: 20px auto 0;
+  padding: 10px;
+  color: #0a0531;
+  box-shadow: 6px 6px 6px rgba(24, 1, 78, 0.2);
+  height: 650px;
+}
+
+#advanced-search-form3 h2{
+  padding-bottom: 10px;
+  margin: 4px 20px 0px;
+  font-size: 24px;
+  text-align: center;
+}
+
+#advanced-search-form3 h5{
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+#advanced-search-form3 .form-group{
+margin-bottom: 20px;
+  margin-left:20px;
+width: 40%;
+  float:left;
+  text-align: left;
+}
+
+#advanced-search-form3 .form-group2{
+  margin-bottom: 20px;
+    margin-left: 4rem;
+  width: 20%;
+    float:left;
+    text-align: left;
+  }
+
+#advanced-search-form3 .form-select{
+margin-bottom: 20px;
+  margin-left:20px;
+width: 30%;
+  float:left;
+  text-align: left;
+}
+
+#advanced-search-form3 .form-control{
+height: 10%;
+}
+
+#advanced-search-form3 .btn #search{
+  width: 15%;
+  margin: 25px 500px;
+  display: block;
+  outline: none;
+  
+}
+
+#advanced-search-form3 .btn{
+  width: 8%;
+  margin: 25px 580px;
+  display: block;
+  outline: none;
+  
+}
 

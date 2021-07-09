@@ -57,7 +57,6 @@
                         <input class="btn btn-danger" type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar">
                     </form>
                 </td>
-                <td></td>
             </tr>
             @endforeach
         </tbody>
