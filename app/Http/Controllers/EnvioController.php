@@ -29,8 +29,8 @@ class EnvioController extends Controller
         //obtenemos la hora del sistema para usarla en la consulta
         $hora = $this->hora();
         //obtenemos las corridas de que aun no han pasado
-        //$corridas = Corrida::all();
-        $corridas = DB::table('corridas')->where('hora_salida', '>=', $hora)->get();
+        $corridas = Corrida::all();
+        //$corridas = DB::table('corridas')->where('hora_salida', '>=', $hora)->get();
         return view('admin.envio.create', compact('corridas'));
     }
 
@@ -63,7 +63,7 @@ class EnvioController extends Controller
         $tamano = count($envios);
         //retornamos los datos encontrados
         if ($tamano == 0) {
-            return redirect('/envio')->with('mensaje', 'No hay envios en esta fecha');
+            return redirect('/envio')->with('mensaje', 'No hay envios registrados en la fecha seleccionada');
         } else {
             return view('admin.envio.index', compact('envios'));
         }

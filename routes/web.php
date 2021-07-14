@@ -49,12 +49,19 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('reservacion/{corrida}/asientos', [ReservationController::class, 'reservarAsiento'])->name('reservacion.asientos');
     //se hace la reservación y se generan los boletos
     Route::any('reservacion/{corrida}/boletos', [ReservationController::class, 'generarBoletos'])->name('reservacion.boletos');
+    Route::any('reservacion/{reservacion}/guardar', [ReservationController::class, 'guardarBoletos'])->name('reservacion.guardar');
     //realizar las cancelaciones
     Route::any('reservacion/{corrida}/cancelar', [ReservationController::class, 'cancelarReservacion'])->name('reservacion.cancelar');
 
     Route::any('reservacion/{corrida}/cancelacion', [ReservationController::class, 'cancelar'])->name('reservacion.cancelacion');
 
     Route::post('reservacion/{corrida}/buscar', [ReservationController::class, 'buscarCliente'])->name('reservacion.buscar');
+    //ruta para mostrar el buscador de las reservaciones de las cuales se van a generar los boletos
+    Route::get('reservacion/{corrida}/cobrar', [ReservationController::class, 'cobrar'])->name('reservacion.cobrar');
+    //ruta para buscar una reservación por nombre del cliente
+    Route::post('reservacion/{corrida}/buscarboleto', [ReservationController::class, 'buscarBoleto'])->name('reservacion.buscarboleto');
+    //ruta para mostrar los boletos que previamente se reservaron y que ahora se van a pagar
+    Route::any('reservacion/{corrida}/{reservacion}/boletosapagar', [ReservationController::class, 'generarBoletos2'])->name('reservacion.boletosapagar');
 
     //empezamos con las rutas para los viajes especiales
     Route::get('viaje', [ViajeController::class, 'index'])->name('viaje.index');

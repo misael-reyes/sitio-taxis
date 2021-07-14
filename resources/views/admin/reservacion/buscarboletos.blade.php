@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 @if(Session::has('mensaje'))
 <div class="alert alert-danger" role="alert" style="text-align: center;">
     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
@@ -14,62 +13,63 @@
 </div>
 @endif
 <div class="container">
-    <h2 style="text-align: center; margin:20px;">Servicio de paquetería</h2>
+
+    <h2 style="text-align: center; margin:20px;">Cobrar reservaciones</h2>
+
     <br>
-    <a href="{{ url('/envio/create') }}" class="btn btn-success btn-lg"> Registrar nuevo envío</a>
-    <form class="form-inline" action="{{ url('/envio/buscar') }}" method="post">
+    <form class="form-inline" action="{{ url('/reservacion/'.$corrida->id.'/buscarboleto') }}" method="post" name="frm">
         @csrf
         <div class="form-group mx-auto">
-            <label for="fecha_a_buscar" class="is-required" style="margin: 15px; font-weight: bold; color:white;">Ingrese la fecha</label>
-            <input type="date" id="fecha_a_buscar" name="fecha_a_buscar" required>
+            <label for="first-name" class="is-required" style="margin: 15px; color:white; font-weight: bold;">Nombre del pasajero</label>
+            <input type="text" name="cliente" class="form-control" id="first-name" size="30px" autocomplete="off" pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$" style="margin: 15px;" required>
             <input type="submit" class="btn btn-success" style="margin: 15px;" value="Buscar">
         </div>
     </form>
+
     <br>
+
     <table class="table table-light">
+
         <thead class="thead-light">
             <tr>
-                <th>ID de envio</th>
-                <th>Remitente</th>
-                <th>Destinatario</th>
-                <th>Descripción</th>
-                <th>Destino</th>
-                <th>Costo</th>
+                <th>ID de reservación</th>
+                <th>Nombre del Pasajero</th>
                 <th>Estatus del pago</th>
-                <th>Fecha</th>
-                <th>ID de corrida</th>
+                <th>Total a pagar</th>
+                <th>Fecha de reservación</th>
+                <th>Opción</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach($envios as $envio)
+            @foreach($reservaciones as $reservacion)
             <tr>
                 <?php
-                $str = strval($envio->id);
+                $str = strval($reservacion->id);
                 for ($i = strlen($str); $i < 3; $i++) {
                     $str = "0" . $str;
                 }
-                $str2 = strval($envio->corrida_id);
-                for ($i = strlen($str2); $i < 3; $i++) {
-                    $str2 = "0" . $str2;
-                }
                 ?>
                 <td>{{ $str }}</td>
-                <td>{{ $envio->remitente }}</td>
-                <td>{{ $envio->destinatario }}</td>
-                <td>{{ $envio->descripcion }}</td>
-                <td>{{ $envio->destino }}</td>
-                <td>{{ $envio->costo }}</td>
-                <td>{{ $envio->estatus_pago }}</td>
-                <td>{{ $envio->fecha_envio }}</td>
-                <td>{{ $str2 }}</td>
+                <td>{{ $reservacion->cliente }}</td>
+                <td>{{ $reservacion->estatus_pago }}</td>
+                <td>{{ $reservacion->costo_total }}</td>
+                <td>{{ $reservacion->fecha_reservacion }}</td>
+                <td>
+                    <a href="{{ url('/reservacion/'.$corrida->id.'/'.$reservacion->id.'/boletosapagar') }}" class="btn btn-success">
+                        Generar boletos
+                    </a>
+                </td>
+
             </tr>
             @endforeach
         </tbody>
 
     </table>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-danger" href="{{ url('reservacion/') }}"> Regresar </a>
+    </div>
 </div>
-
 <script>
     var myVar = setInterval(function() {
         myTimer()

@@ -39,47 +39,77 @@
     @php($bandera4 = true)
 
 
-    @for($i = 0; $i < $boletosAgenerar; $i++) <div class="col-sm-3 mx-auto" >
+    @for($i = 0; $i < $boletosAgenerar; $i++) <div class="col-sm-3 mx-auto">
         <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">Sitio de taxis YII-YEE</h5>
-                <p class="card-text">cliente: {{ $datos2["cliente"] }}</p>
+            <div class="card-body" id="tarjeta">
+                <h4 class="card-title">Sitio de taxis YII-YEE</h4>
                 <p class="card-text">Id de reservación: {{ $id_registro }}</p>
+                <p class="card-text">pasajero: {{ $datos2["cliente"] }}</p>
                 @if (isset($datos2["num_asiento1"]) && $bandera1 == true)
                 <p class="card-text">número de asiento: {{ $datos2["num_asiento1"] }}</p>
+                <p class="card-text">origen: San Miguel Suchixtepec</p>
                 <p class="card-text">destino: {{ $datos2["destino_intermedio"] }}</p>
                 <p class="card-text">costo: $ {{ costo($datos2["destino_intermedio"]) }}</p>
-                <p class="card-text">estatus del pago: {{ $datos2["estatus_pago"] }}</p>
                 @php($bandera1 = false)
                 @elseif (isset($datos2["num_asiento2"]) && $bandera2 == true)
                 <p class="card-text">número de asiento: {{ $datos2["num_asiento2"] }}</p>
+                <p class="card-text">origen: San Miguel Suchixtepec</p>
                 <p class="card-text">destino: {{ $datos2["destino_intermedio"] }}</p>
                 <p class="card-text">costo: $ {{ costo($datos2["destino_intermedio"]) }}</p>
-                <p class="card-text">estatus del pago: {{ $datos2["estatus_pago"] }}</p>
                 @php($bandera2 = false)
                 @elseif (isset($datos2["num_asiento3"]) && $bandera3 == true)
                 <p class="card-text">número de asiento: {{ $datos2["num_asiento3"] }}</p>
+                <p class="card-text">origen: San Miguel Suchixtepec</p>
                 <p class="card-text">destino: {{ $datos2["destino_intermedio"] }}</p>
                 <p class="card-text">costo: $ {{ costo($datos2["destino_intermedio"]) }}</p>
-                <p class="card-text">estatus del pago: {{ $datos2["estatus_pago"] }}</p>
                 @php($bandera3 = false)
                 @else
                 <p class="card-text">número de asiento: {{ $datos2["num_asiento4"] }}</p>
+                <p class="card-text">origen: San Miguel Suchixtepec</p>
                 <p class="card-text">destino: {{ $datos2["destino_intermedio"] }}</p>
                 <p class="card-text">costo: $ {{ costo($datos2["destino_intermedio"]) }}</p>
-                <p class="card-text">estatus del pago: {{ $datos2["estatus_pago"] }}</p>
                 @php($bandera4 = false)
                 @endif
                 <p class="card-text">hora salida: {{ $datos2["hora_salida"] }}</p>
-                <p class="card-text">GRACIAS POR SU PREFERENCIA</p>
+                <br>
+                <p>Se le solicita estar al pendiente de su hora de salida, ya que no hay cambios ni devoluciones</p>
+                <p>No pierda su boleto, ya que es su pase de abordar</p>
+                <p>Se le invita a realizar el pago de su boleto en ventanilla 10 min antes de su viaje</p>
+                <h4 class="card-text">GRACIAS POR SU PREFERENCIA</h4>
             </div>
         </div>
 </div>
 @endfor
 </div>
 
-<div class="d-grid gap-2 col-2 mx-auto">
-    <a class="btn btn-success" href="{{ url('reservacion/') }}" style="margin-top: 80px;">Imprimir Boletos</a>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end" style="margin: 50px;">
+    <a class="btn btn-success" href="{{ url('reservacion/') }}" style="margin: 0px 10px;">Imprimir Boletos</a>
+    <form action="{{ url('/reservacion/'.$id_registro.'/guardar') }}" class="d-inline" method="post">
+        @csrf
+        {{ method_field('PATCH') }}
+        <input class="btn btn-dark" type="submit" value="Reservar Boletos" style="margin: 0px 10px;">
+    </form>
 </div>
+<script>
+    var myVar = setInterval(function() {
+        myTimer()
+    }, 1000);
 
+    function myTimer() {
+        var hora = new Date();
+        var myhora = hora.toLocaleTimeString();
+        
+        let hoursActive = ['7:50:00','8:20:00','8:50:00','9:20:00','9:50:00',
+        '10:20:00','10:50:00','11:20:00','11:50:00','12:20:00','12:50:00',
+        '13:20:00','13:50:00','14:20:00','14:50:00','15:20:00','15:50:00',
+        '16:20:00','16:50:00','17:20:00','17:50:00'];
+
+        if (hoursActive.includes(myhora)) {
+            let continuar = confirm("La corrida de las " + " " + myhora + " " + "está proxima a salir, verifique que todas las reservaciones se hayan pagado");
+            if(continuar){
+                window.location='/reservacion'; 
+            }
+        }
+    }
+</script>
 @endsection
