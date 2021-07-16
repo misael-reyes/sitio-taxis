@@ -58,7 +58,7 @@ foreach ($consulta as $valor) {
                 @endforeach
             </select>
         </div>
-        <img src="/dash/img/taxifinal.png" width="230" height="390" style="margin-left: 100px;">
+        <img src="/dash/img/TaxisPropuesta2.png" width="230" height="390" style="margin-left: 100px;">
         <br>
         <div class="origen2" id="formulario">
             <label for="cliente" class="is-required">Nombre completo</label>

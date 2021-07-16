@@ -10,14 +10,14 @@
             <div class="card-body" id="tarjeta">
                 <h4 class="card-title">Sitio de taxis YII-YEE</h4>
                 <p class="card-text">Id de reservación: {{ $reservacion->id }}</p>
-                <p class="card-text">pasajero: {{ $reservacion->cliente }}</p>
+                <p class="card-text">Pasajero: {{ $reservacion->cliente }}</p>
                 
-                <p class="card-text">número de asiento: {{ $asiento->num_asiento }}</p>
-                <p class="card-text">origen: San Miguel Suchixtepec</p>
-                <p class="card-text">destino: {{ $precio[0]->destino_intermedio }}</p>
-                <p class="card-text">costo: $ {{ $precio[0]->precio_unitario }}</p>
+                <p class="card-text">Número de asiento: {{ $asiento->num_asiento }}</p>
+                <p class="card-text">Origen: San Miguel Suchixtepec</p>
+                <p class="card-text">Destino: {{ $precio[0]->destino_intermedio }}</p>
+                <p class="card-text">Costo: $ {{ $precio[0]->precio_unitario }}</p>
                 
-                <p class="card-text">hora salida: {{ $corrida->hora_salida }}</p>
+                <p class="card-text">Hora salida: {{ $corrida->hora_salida }}</p>
                 <br>
                 <p>Se le solicita estar al pendiente de su hora de salida, ya que no hay cambios ni devoluciones</p>
                 <p>No pierda su boleto, ya que es su pase de abordar</p>

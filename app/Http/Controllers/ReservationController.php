@@ -14,6 +14,8 @@ use DateTime;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 use Illuminate\Support\Collection;
+use App\Http\Controllers\SessionManager;
+use Illuminate\Session\SessionManager as SessionSessionManager;
 
 /**
  * ReservationController
@@ -28,27 +30,24 @@ class ReservationController extends Controller
      *
      * @return view vista donde se muestran las corridas
      */
-    public function mostrarCorridas()
+    public function mostrarCorridas(SessionSessionManager $sessionManager)
     {
-        //"hora_salida":"08:00:00"
-        //consultamos en la base de datos las corridas disponibles
+        //tomamos la hora actual del sistema
         $hora = $this->hora();
         $hora_sin_segundos = $this->hora2();
-        //$corridas = DB::table('corridas')->where('hora_salida', '>=', $hora)->get();
-        $corridas = Corrida::all();
-        //obtenemos la primera corrida que nos devolvio la consulta
+        $corridas = DB::table('corridas')->where('hora_salida', '>=', $hora)->get();
+
+        //validamos que la variable corridas nos regreso algo en la consulta a la base de datos
         if (count($corridas) > 0) {
             $firstcorrida = $corridas[0];
+            $hora_corrida = $corridas[0]->hora_salida;
+        } else {
+            $sessionManager->flash('mensaje', 'Por el día de hoy ya no hay corridas disponibles, las corridas
+            se mostrarán a partir de mañana a las 8:00:00 am');
+            return view('admin.reservacion.corridas', compact('corridas'));
         }
-        //return response()->json($firstcorrida->id);
 
-        /**
-         * primero tengo que obtener la hora de salida de la corrida más proxima
-         * compararla con la misma hora 10 min antes
-         */
-        //hora de la corrida más proxima
-        $hora_corrida = $corridas[0]->hora_salida;
-        //return response()->json($hora_corrida);
+        //horas deinidas para validar 10 antes de cada corrida
         $horas = [
             '7:50', '8:20', '8:50', '9:20', '9:50',
             '10:20', '10:50', '11:20', '11:50', '12:20', '12:50',
@@ -67,12 +66,13 @@ class ReservationController extends Controller
                 ->where('reservation_details.estatus', '=', 'activo')
                 ->where('reservations.estatus_pago', '=', 'apartado')
                 ->get();
-            //return response()->json($consulta[0]->id);
+            
             if (count($consulta) > 0) {
                 foreach ($consulta as $c) {
+                    //cancelamos los asientos de aquellos pasajeros que no se han presentado para pagar 
                     DB::update('update reservation_details set estatus = "cancelado" where reservation_id = ? AND corrida_id = ? AND num_asiento = ?', [$c->id, $firstcorrida->id, $c->num_asiento]);
                 }
-                return redirect('reservacion/')->with('mensaje', 'Los asientos del pasajero ' . $consulta[0]->cliente . ' fueron cancelados, ya que aún no se presenta y su corrida sale en 10 min');
+                return redirect('reservacion/')->with('mensaje', 'Los asientos del pasajero ' . $consulta[0]->cliente . ' fueron cancelados, ya que aún no se presenta y su corrida sale en 10 minutos');
             }
         }
 
@@ -203,7 +203,7 @@ class ReservationController extends Controller
         if ($boletosAgenerar != 0) {
             return view('admin.reservacion.boletos', compact('datos2', 'boletosAgenerar', 'id', 'id_registro'));
         } else {
-            return redirect('reservacion/' . $id . '/asientos')->with('mensaje', 'No has seleccionado asientos');
+            return redirect('reservacion/' . $id . '/asientos')->with('mensaje', 'No haz seleccionado asientos');
         }
     }
 
@@ -292,7 +292,12 @@ class ReservationController extends Controller
         return $fechaHoy;
     }
 
-    //"08:00:00"
+        
+    /**
+     * nos regresa la hora actual del sistema en formato hh:mm:ss
+     *
+     * @return void
+     */
     public function hora()
     {
         date_default_timezone_set('America/Mexico_City');
@@ -300,7 +305,12 @@ class ReservationController extends Controller
         $horaHoy = $hoy["hours"] . ":" . $hoy["minutes"] . ":" . $hoy["seconds"];
         return $horaHoy;
     }
-
+    
+    /**
+     * nos retorna la hora del sistema pero sin los segundos, solo hora y minutos
+     *
+     * @return void
+     */
     public function hora2()
     {
         date_default_timezone_set('America/Mexico_City');
@@ -308,7 +318,14 @@ class ReservationController extends Controller
         $horaHoy = $hoy["hours"] . ":" . $hoy["minutes"];
         return $horaHoy;
     }
-
+    
+    /**
+     * función que aparta los boletos de un pasajero despues de la reservación, el estatus esta en 
+     * apartado ya que aun no ha pagado
+     *
+     * @param  mixed $id id de la reservación
+     * @return void
+     */
     public function guardarBoletos($id)
     {
         DB::update('update reservations set estatus_pago = "apartado" where id = ?', [$id]);
@@ -324,17 +341,20 @@ class ReservationController extends Controller
         $corrida = Corrida::findOrFail($id);
         return view('admin.reservacion.buscarboletos', compact('corrida', 'reservaciones'));
     }
-
+    
+    /**
+     * fución que busca el nombre del pasajero que se le proporsiono en la base de datos para despues
+     * mostrarlo en una tabla, esto es para cuando el pasajero quiere generar los boletos para despues
+     * pagarlos
+     *
+     * @param  mixed $id id de la corrida
+     * @return void
+     */
     public function buscarBoleto($id)
     {
         //recuperamos el nombre del cliente
         $nombre_cliente = request()->except('_method');
         $corrida = Corrida::findOrFail($id);
-        /*
-        $reservaciones = Reservation::where('cliente', '=', $nombre_cliente["cliente"])
-            ->where('fecha_reservacion', '=', $this->fecha())
-            ->where('estatus_pago', '=', 'apartado')
-            ->get();*/
 
         $reservaciones = DB::table('reservation_details')
             ->select('reservations.id', 'reservations.estatus_pago', 'reservations.costo_total', 'reservations.cliente', 'reservations.fecha_reservacion')
@@ -343,12 +363,9 @@ class ReservationController extends Controller
             ->where('corridas.id', '=', $id)
             ->where('reservations.fecha_reservacion', '=', $this->fecha())
             ->where('reservation_details.estatus', '=', 'activo')
-           // ->where('reservations.estatus_pago', '=', 'apartado')
             ->where('reservations.cliente', '=', $nombre_cliente["cliente"])
             ->limit(1)
             ->get();
-        //return response()->json($reservaciones[0]->cliente);
-        //$reservaciones = $reservaciones2[0];
 
         $tamano =  count($reservaciones);
         //validamos si se encontro al cliente
@@ -362,10 +379,17 @@ class ReservationController extends Controller
         //mostramos sus asientos reservados de dicho cliente
         return view('admin.reservacion.buscarboletos', compact('corrida', 'reservaciones'));
     }
-
+    
+    /**
+     * generamos los boletos del pasajero que anteriorente reservo y ahora viene a pagar los boletos
+     * previamente se busco su nombre en la base de datos y ahora se generaran sus boletos
+     *
+     * @param  mixed $idc id de la corrida
+     * @param  mixed $id id de la reservación
+     * @return void
+     */
     public function generarBoletos2($idc, $id)
     {
-
         //recuperamos los datos de la reservacion
         $reservacion = Reservation::findOrFail($id);
         $corrida = Corrida::findOrFail($idc);
@@ -380,7 +404,6 @@ class ReservationController extends Controller
             ->where('reservations.estatus_pago', '=', 'apartado')
             ->where('reservations.id', '=', $id)
             ->get();
-        //return response()->json($asientos[0]->precio_id);
 
         $precio = Precio::where('id', $asientos[0]->precio_id)->get();
         //actualizamos en la tabla reservaciones el estatus del pago
